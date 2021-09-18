@@ -3,6 +3,7 @@ const _ = require('lodash');
 const moment = require('moment');
 const { ethers } = require('ethers');
 const tweet = require('./tweet');
+const telegram = require('./telegram');
 const cache = require('./cache');
 
 // Format tweet text
@@ -35,7 +36,7 @@ function formatAndSendTweet(event) {
     // const imageUrl = _.get(event, ['asset', 'image_url']);
     // return tweet.tweetWithImage(tweetText, imageUrl);
 
-    return tweet.tweet(tweetText);
+    return telegram.telegram(tweetText);
 }
 
 // Poll OpenSea every 60 seconds & retrieve all sales for a given collection in either the time since the last sale OR in the last minute
