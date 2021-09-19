@@ -1,5 +1,7 @@
 const axios = require('axios');
 const twit = require('twit');
+require('dotenv').config()
+
 
 const twitterConfig = {
     consumer_key: process.env.CONSUMER_KEY,

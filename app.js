@@ -2,7 +2,7 @@ const axios = require('axios');
 const _ = require('lodash');
 const moment = require('moment');
 const { ethers } = require('ethers');
-const tweet = require('./tweet');
+//const tweet = require('./tweet');
 const telegram = require('./telegram');
 const cache = require('./cache');
 
@@ -11,6 +11,9 @@ function formatAndSendTweet(event) {
     // Handle both individual items + bundle sales
     const assetName = _.get(event, ['asset', 'name'], _.get(event, ['asset_bundle', 'name']));
     const openseaLink = _.get(event, ['asset', 'permalink'], _.get(event, ['asset_bundle', 'permalink']));
+
+    const image_url = _.get(event, ['asset', 'image_url']);
+
 
     const totalPrice = _.get(event, 'total_price');
 
@@ -22,9 +25,10 @@ function formatAndSendTweet(event) {
     const formattedEthPrice = formattedUnits * tokenEthPrice;
     const formattedUsdPrice = formattedUnits * tokenUsdPrice;
 
-    const tweetText = `${assetName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) #NFT ${openseaLink}`;
+    //const tweetText = `${assetName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) #NFT ${openseaLink}`;
 
-    console.log(tweetText);
+    const telegramPost = `<b>${assetName} was bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}).</b>\n ${image_url} \n#NFT ${openseaLink}`
+    console.log(telegramPost);
 
     // OPTIONAL PREFERENCE - don't tweet out sales below X ETH (default is 1 ETH - change to what you prefer)
     // if (Number(formattedEthPrice) < 1) {
@@ -36,11 +40,17 @@ function formatAndSendTweet(event) {
     // const imageUrl = _.get(event, ['asset', 'image_url']);
     // return tweet.tweetWithImage(tweetText, imageUrl);
 
-    return telegram.telegram(tweetText);
+    return telegram.telegram(telegramPost);
 }
 
 // Poll OpenSea every 60 seconds & retrieve all sales for a given collection in either the time since the last sale OR in the last minute
 setInterval(() => {
+    const fileOptions = {
+        // Explicitly specify the file name.
+        filename: 'customfilename',
+        // Explicitly specify the MIME type.
+        contentType: 'audio/mpeg',
+      };
     const lastSaleTime = cache.get('lastSaleTime', null) || moment().startOf('minute').subtract(59, "seconds").unix();
 
     console.log(`Last sale (in seconds since Unix epoch): ${cache.get('lastSaleTime', null)}`);
