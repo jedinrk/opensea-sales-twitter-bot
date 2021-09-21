@@ -26,8 +26,10 @@ function formatAndSendTweet(event) {
     const formattedUsdPrice = formattedUnits * tokenUsdPrice;
 
     //const tweetText = `${assetName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) #NFT ${openseaLink}`;
-
-    const telegramPost = `<b>${assetName} was bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}).</b>\n ${image_url} \n#NFT ${openseaLink}`
+    const assetImageUrl = `<a href="${image_url}">#NFT</a>`
+    const openseaUrl = `<a href="${openseaLink}">#Opensea</a>`
+    const postMessage = `<b>${assetName} was bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}).</b>`
+    const telegramPost = `${postMessage}\n ${assetImageUrl} \n ${openseaUrl}`
     console.log(telegramPost);
 
     // OPTIONAL PREFERENCE - don't tweet out sales below X ETH (default is 1 ETH - change to what you prefer)
