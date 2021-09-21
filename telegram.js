@@ -15,11 +15,6 @@ async function telegram(message) {
   bot.sendMessage(chatId, message, {parse_mode: "HTML"});
 }
 
-// OPTIONAL - use this method if you want the telegram to include the full image file of the OpenSea item in the post.
-async function telegramWithImage(message, imageUrl) {
-  // Format our image to base64
-  const processedImage = await getBase64(imageUrl);
-}
 
 module.exports = {
   telegram: telegram,
