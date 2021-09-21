@@ -8,14 +8,14 @@ const token = process.env.TELEGRAM_BOT_KEY;
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, { polling: true });
 
-// Tweet a text-based status
+// Telegram a text-based status
 async function telegram(message) {
-  const chatId = "@test_channel_star";
+  const chatId = "@openstarsorg";
 
   bot.sendMessage(chatId, message, {parse_mode: "HTML"});
 }
 
-// OPTIONAL - use this method if you want the tweet to include the full image file of the OpenSea item in the tweet.
+// OPTIONAL - use this method if you want the telegram to include the full image file of the OpenSea item in the post.
 async function telegramWithImage(message, imageUrl) {
   // Format our image to base64
   const processedImage = await getBase64(imageUrl);
