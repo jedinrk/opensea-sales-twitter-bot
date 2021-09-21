@@ -17,6 +17,5 @@ async function telegram(message) {
 
 
 module.exports = {
-  telegram: telegram,
-  telegramWithImage: telegramWithImage,
+  telegram: telegram
 };
