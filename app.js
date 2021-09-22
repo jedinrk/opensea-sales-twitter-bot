@@ -40,8 +40,9 @@ function formatAndSendTweet(event) {
 
 
   telegram.telegram(telegramPost);
-
-  const tweetText = `${assetName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) #NFT ${openseaLink}`;
+  
+  const reTweetText = "Retweet to get $10 worth of MATTER | 1 Lucky Winner";
+  const tweetText = `${assetName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) #NFT ${openseaLink} ${reTweetText}`;
   console.log(tweetText);
   tweet.tweetWithImage(tweetText, imageUrl);
 
