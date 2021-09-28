@@ -4,7 +4,10 @@ const moment = require("moment");
 const { ethers } = require("ethers");
 //const tweet = require('./tweet');
 const telegram = require("./telegram");
+const leadership = require("./leadership");
 const cache = require("./cache");
+
+const MINUTE = 60000; // In Millisecodns
 
 // Format tweet text
 function formatAndSendTweet(event) {
@@ -34,17 +37,56 @@ function formatAndSendTweet(event) {
 
   const assetImageUrl = `<a href="${imageUrl}">#NFT</a>`;
   const openseaUrl = `<a href="${openseaLink}">#Opensea</a>`;
-  const postMessage = `<b>${assetName} was bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}).</b>`;
+  const postMessage = `<b>${assetName} was bought for ${formattedEthPrice}${
+    ethers.constants.EtherSymbol
+  } ($${Number(formattedUsdPrice).toFixed(2)}).</b>`;
   const telegramPost = `${postMessage}\n ${assetImageUrl} \n ${openseaUrl}`;
   console.log(telegramPost);
 
-
   telegram.telegram(telegramPost);
-  
+
   const reTweetText = "Retweet to get $10 worth of MATTER | 1 Lucky Winner";
-  const tweetText = `${assetName} bought for ${formattedEthPrice}${ethers.constants.EtherSymbol} ($${Number(formattedUsdPrice).toFixed(2)}) #NFT ${openseaLink} ${reTweetText}`;
+  const tweetText = `${assetName} bought for ${formattedEthPrice}${
+    ethers.constants.EtherSymbol
+  } ($${Number(formattedUsdPrice).toFixed(
+    2
+  )}) #NFT ${openseaLink} ${reTweetText}`;
   console.log(tweetText);
   tweet.tweetWithImage(tweetText, imageUrl);
+
+  return true;
+}
+
+function formatLeaderBoard() {
+  let telegramPost = `\n\n          LeaderBoard          \n`;
+  telegramPost = telegramPost.concat(
+    `---------------------------------------------\n`
+  );
+  telegramPost = telegramPost.concat(` Sl&#9;| Accounts&#9;| Openstars\n`);
+  telegramPost = telegramPost.concat(
+    `---------------------------------------------\n`
+  );
+
+  leadership.populateLeaderBoard().then((leaderboard) => {
+    let index = 1;
+    leaderboard.forEach((leader) => {
+      telegramPost = telegramPost.concat(
+        `${index}&#9;| ${leader[0].slice(0, 5)}...${leader[0].slice(
+          leader[0].length - 6,
+          leader[0].length - 1
+        )}&#9;| ${leader[1]} \n`
+      );
+      index++;
+    });
+
+    telegramPost = telegramPost.concat(
+      `---------------------------------------------\n`
+    );
+
+    console.log("Leader Board", telegramPost);
+
+    telegram.telegram(telegramPost);
+  });
 
   return true;
 }
@@ -93,4 +135,8 @@ setInterval(() => {
     .catch((error) => {
       console.error(error);
     });
-}, 60000);
+}, MINUTE);
+
+setInterval(() => {
+  return formatLeaderBoard();
+}, 30 * MINUTE);

@@ -10,8 +10,9 @@ const bot = new TelegramBot(token, { polling: true });
 
 // Telegram a text-based status
 async function telegram(message) {
+  //const chatId = "@openstarchan"; Test channel
   const chatId = "@openstarsorg";
-
+  
   bot.sendMessage(chatId, message, {parse_mode: "HTML"});
 }
 
