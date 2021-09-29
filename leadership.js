@@ -1,4 +1,4 @@
-const Web3 = require("Web3");
+const Web3 = require('web3');
 
 const provider = new Web3.providers.WebsocketProvider(
   "wss://mainnet.infura.io/ws/v3/cda70c3f75b44341b8fc4043c2724c88"
