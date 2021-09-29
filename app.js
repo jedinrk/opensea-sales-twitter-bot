@@ -139,4 +139,4 @@ setInterval(() => {
 
 setInterval(() => {
   return formatLeaderBoard();
-}, 30 * MINUTE);
+}, 24 * 60 * MINUTE);
