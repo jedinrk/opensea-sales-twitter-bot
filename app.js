@@ -2,7 +2,7 @@ const axios = require("axios");
 const _ = require("lodash");
 const moment = require("moment");
 const { ethers } = require("ethers");
-//const tweet = require('./tweet');
+const tweet = require('./tweet');
 const telegram = require("./telegram");
 const leadership = require("./leadership");
 const cache = require("./cache");
@@ -36,21 +36,21 @@ function formatAndSendTweet(event) {
   const formattedUsdPrice = formattedUnits * tokenUsdPrice;
 
   const assetImageUrl = `<a href="${imageUrl}">#NFT</a>`;
-  const openseaUrl = `<a href="${openseaLink}">#Opensea</a>`;
+  const openseaUrl = `<a href="${openseaLink}">#NFTCommunity</a>`;
   const postMessage = `<b>${assetName} was bought for ${formattedEthPrice}${
     ethers.constants.EtherSymbol
-  } ($${Number(formattedUsdPrice).toFixed(2)}).</b>`;
+  } ($${Number(formattedUsdPrice).toFixed(2)}). Its new owner now has benefits and extra rewards on <a href="https://play.openstars.org">https://play.openstars.org</a> </b> `;
   const telegramPost = `${postMessage}\n ${assetImageUrl} \n ${openseaUrl}`;
   console.log(telegramPost);
 
   telegram.telegram(telegramPost);
 
-  const reTweetText = "Retweet to get $10 worth of MATTER | 1 Lucky Winner";
+  const reTweetText = "$10 worth of @OpenStars xOSM for a random user who retweets and adds their address";
   const tweetText = `${assetName} bought for ${formattedEthPrice}${
     ethers.constants.EtherSymbol
   } ($${Number(formattedUsdPrice).toFixed(
     2
-  )}) #NFT ${openseaLink} ${reTweetText}`;
+  )}) Its new owner now has benefits and extra rewards on https://play.openstars.org ${reTweetText} #NFT #NFTCommunity ${openseaLink}`;
   console.log(tweetText);
   tweet.tweetWithImage(tweetText, imageUrl);
 
