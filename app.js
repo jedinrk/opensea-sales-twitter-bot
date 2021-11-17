@@ -45,12 +45,19 @@ function formatAndSendTweet(event) {
 
   telegram.telegram(telegramPost);
 
-  const reTweetText = "$10 worth of @OpenStars xOSM for a random user who retweets and adds their address";
-  const tweetText = `${assetName} bought for ${formattedEthPrice}${
+  const reTweetText = "Like, retweet and comment with your ETH address and tag two friends for a chance to win $10 worth of xOSM";
+  const tweetText = `Someone just bought ${assetName} for ${formattedEthPrice}${
     ethers.constants.EtherSymbol
   } ($${Number(formattedUsdPrice).toFixed(
     2
-  )}) Its new owner now has benefits and extra rewards on https://play.openstars.org ${reTweetText} #NFT #NFTCommunity ${openseaLink}`;
+  )}). 
+  They will earn more rewards at https://play.openstars.org. 
+  ${reTweetText} 
+  #NFTCommunity
+  #NFTGiveaway
+  #NFTGaming
+  #Opensea 
+  ${openseaLink}`;
   console.log(tweetText);
   tweet.tweetWithImage(tweetText, imageUrl);
 
@@ -135,7 +142,7 @@ setInterval(() => {
     .catch((error) => {
       console.error(error);
     });
-}, MINUTE);
+}, 30 * MINUTE);
 
 setInterval(() => {
   return formatLeaderBoard();
